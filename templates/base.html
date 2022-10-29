@@ -26,16 +26,16 @@
       <div class="collapse navbar-collapse" id="navbarExample01">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item active">
-            <a class="nav-link" aria-current="page" href="#">Home</a>
+            <a class="nav-link" aria-current="page" href="{% url 'list_movie' %}">Filmy</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Features</a>
+            <a class="nav-link" href="{% url 'create_movie' %}">Dodaj Film</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Pricing</a>
+            <a class="nav-link" href="{% url 'list_person' %}">Ludzie</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
+            <a class="nav-link" href="{% url 'create_person' %}">Dodaj Osobe</a>
           </li>
         </ul>
       </div>
@@ -46,9 +46,10 @@
   <!-- Jumbotron -->
   <!-- Jumbotron -->
 </header>
+<div class="container m-4">
 {% block content %}
     Tytaj mamy zawartość która bedzie podmieniana
 {% endblock %}
-
+</div>
 </body>
 </html>
