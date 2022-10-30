@@ -13,5 +13,12 @@
         </ul>
     </div>
 </div>
+    <p>
+    <form method="post" action="{% url 'add_comment' movie.id %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit">
+    </form>
+    </p>
 
 {% endblock %}

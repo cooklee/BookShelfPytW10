@@ -1,9 +1,10 @@
+from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 
 # Create your views here.
 from django.views import View
 
-from shelf.forms import MovieAddForm, StudioAddForm
+from shelf.forms import MovieAddForm, StudioAddForm, CommentAddForm, LoginForm
 from shelf.models import Person, Movie
 
 
@@ -66,4 +67,35 @@ class MovieDetailView(View):
 
     def get(self, request, pk):
         movie = Movie.objects.get(pk=pk)
-        return render(request, 'movie_detail.html', {'movie': movie})
+        form = CommentAddForm()
+        return render(request, 'movie_detail.html', {'movie': movie, 'form': form})
+
+
+class AddCommentView(View):
+
+    def post(self, request, movie_pk):
+        form = CommentAddForm(request.POST)
+        movie = Movie.objects.get(pk=movie_pk)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.movie = movie
+            comment.author = request.user
+            comment.save()
+            return redirect('detail_movie', movie_pk)
+
+class LoginView(View):
+
+    def get(self, request):
+        form = LoginForm()
+        return render(request, 'form.html', {'form':form})
+
+    def post(self, request):
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect("index")
+        return render(request, 'form.html', {'form': form})

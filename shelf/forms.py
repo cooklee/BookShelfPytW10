@@ -1,7 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
-from shelf.models import Person, Studio
+from shelf.models import Person, Studio, Comment
 
 
 def min_year(value):
@@ -32,3 +32,17 @@ class StudioAddForm(forms.ModelForm):
     class Meta:
         model = Studio
         fields = "__all__"
+
+
+class CommentAddForm(forms.ModelForm):
+
+    class Meta:
+        model = Comment
+        fields = ['text']
+
+
+class LoginForm(forms.Form):
+    username = forms.CharField(max_length=100)
+    password = forms.CharField(
+        max_length=100, widget=forms.PasswordInput
+    )
