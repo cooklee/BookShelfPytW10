@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
 from shelf.models import Person, Studio, Comment
@@ -46,3 +47,17 @@ class LoginForm(forms.Form):
     password = forms.CharField(
         max_length=100, widget=forms.PasswordInput
     )
+
+
+class UserCreateForm(forms.ModelForm):
+    password = forms.CharField(max_length=120, widget=forms.PasswordInput)
+    password2= forms.CharField(max_length=120, widget=forms.PasswordInput)
+
+    class Meta:
+        model = User
+        fields = ['username']
+
+    def clean(self):
+        cleaned_data = super().clean()
+        if cleaned_data['password'] != cleaned_data['password2']:
+            raise ValidationError('Hasła nie są takie same!!!')

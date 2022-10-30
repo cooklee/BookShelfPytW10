@@ -23,9 +23,16 @@
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'create_person' %}">Dodaj Osobe</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'login' %}">login</a>
-            </li>
+            {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">logout</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">login</a>
+                </li>
+            {% endif %}
+
         </ul>
     </div>
 </nav>

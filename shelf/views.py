@@ -1,10 +1,11 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 
 # Create your views here.
 from django.views import View
 
-from shelf.forms import MovieAddForm, StudioAddForm, CommentAddForm, LoginForm
+from shelf.forms import MovieAddForm, StudioAddForm, CommentAddForm, LoginForm, UserCreateForm
 from shelf.models import Person, Movie
 
 
@@ -71,7 +72,7 @@ class MovieDetailView(View):
         return render(request, 'movie_detail.html', {'movie': movie, 'form': form})
 
 
-class AddCommentView(View):
+class AddCommentView(LoginRequiredMixin, View):
 
     def post(self, request, movie_pk):
         form = CommentAddForm(request.POST)
@@ -91,6 +92,7 @@ class LoginView(View):
 
     def post(self, request):
         form = LoginForm(request.POST)
+        message = ""
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
@@ -98,4 +100,26 @@ class LoginView(View):
             if user is not None:
                 login(request, user)
                 return redirect("index")
-        return render(request, 'form.html', {'form': form})
+            message = "nie poprawne hasło lub/i nazwa użytkownika"
+        return render(request, 'form.html', {'form': form, 'message':message})
+
+class LogoutView(View):
+    def get(self, request):
+        logout(request)
+        return redirect('index')
+
+
+class RegisterView(View):
+
+    def get(self, request):
+        form = UserCreateForm()
+        return render(request, 'form.html', {'form':form})
+
+    def post(self, request):
+        form = UserCreateForm(request.POST)
+        if form.is_valid():
+            u = form.save(commit=False)
+            u.set_password(form.cleaned_data['password'])
+            u.save()
+            return redirect("index")
+        return render(request, 'form.html', {'form':form})

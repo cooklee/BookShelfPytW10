@@ -24,11 +24,11 @@ urlpatterns = [
     path("", TemplateView.as_view(template_name='base.html'), name='index'),
     path('addPerson/', views.CreatePersonView.as_view(), name='create_person'),
     path('listPerson/', views.ListPersonView.as_view(), name='list_person'),
-    path('addMovie/',  views.AddMovieView.as_view(), name='create_movie'),
+    path('addMovie/', views.AddMovieView.as_view(), name='create_movie'),
     path('listMovie/', views.ListMovieView.as_view(), name='list_movie'),
     path('AddStudio/', views.AddStudioView.as_view(), name='add_stuido'),
     path('movie/<int:pk>/', views.MovieDetailView.as_view(), name='detail_movie'),
     path('add_comment/<int:movie_pk>/', views.AddCommentView.as_view(), name='add_comment'),
-    path('login/', views.LoginView.as_view(), name='login')
-
+    path('login/', views.LoginView.as_view(), name='login'),
+    path('logout/', views.LogoutView.as_view(), name='logout'),
 ]
