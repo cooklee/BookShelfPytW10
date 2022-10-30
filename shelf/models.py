@@ -3,6 +3,9 @@ from django.db import models
 
 
 # Create your models here.
+from django.urls import reverse
+
+
 class Person(models.Model):
     first_name = models.CharField(max_length=128)
     last_name = models.CharField(max_length=128)
@@ -19,6 +22,9 @@ class Movie(models.Model):
 
     def __str__(self):
         return f"{self.title} {self.year} {self.director}"
+
+    def get_absolute_url(self):
+        return reverse('detail_movie', args=(self.id,))
 
 
 class Studio(models.Model):
