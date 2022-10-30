@@ -1,9 +1,10 @@
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import render, redirect
 
 # Create your views here.
 from django.views import View
+from django.views.generic import CreateView
 
 from shelf.forms import MovieAddForm, StudioAddForm, CommentAddForm, LoginForm, UserCreateForm
 from shelf.models import Person, Movie
@@ -33,7 +34,8 @@ class ListMovieView(View):
         return render(request, 'movielist.html', {'movies': filmy})
 
 
-class AddMovieView(View):
+class AddMovieView(PermissionRequiredMixin, View):
+    permission_required = ['shelf.add_movie']
 
     def get(self, request):
         form = MovieAddForm()
@@ -64,10 +66,12 @@ class AddStudioView(View):
         return render(request, 'form.html', {'form': form})
 
 
+
 class MovieDetailView(View):
 
     def get(self, request, pk):
         movie = Movie.objects.get(pk=pk)
+        comments = movie.comment_set.filter(author=request.user)
         form = CommentAddForm()
         return render(request, 'movie_detail.html', {'movie': movie, 'form': form})
 

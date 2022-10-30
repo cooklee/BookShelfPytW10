@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.db import models
 
 
@@ -13,10 +14,13 @@ class Person(models.Model):
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
+def validate_year(value):
+    if value < 1900:
+        raise ValidationError("brrr")
 
 class Movie(models.Model):
     title = models.CharField(max_length=123)
-    year = models.IntegerField()
+    year = models.IntegerField(validators=[validate_year])
     director = models.ForeignKey(Person, on_delete=models.CASCADE)
     studio = models.ForeignKey('Studio', on_delete=models.CASCADE, null=True)
 
