@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -26,3 +27,10 @@ class Studio(models.Model):
 
     def __str__(self):
         return f"{self.name} {self.year}"
+
+
+class Comment(models.Model):
+    text = models.TextField()
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now_add=True)

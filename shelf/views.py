@@ -18,21 +18,24 @@ class CreatePersonView(View):
         Person.objects.create(first_name=imie, last_name=nazwisko)
         return redirect('list_person')
 
+
 class ListPersonView(View):
     def get(self, request):
         osoby = Person.objects.all()
-        return render(request, 'PersonList.html', {'persons':osoby})
+        return render(request, 'PersonList.html', {'persons': osoby})
+
 
 class ListMovieView(View):
     def get(self, request):
         filmy = Movie.objects.all()
-        return render(request, 'movielist.html', {'movies':filmy})
+        return render(request, 'movielist.html', {'movies': filmy})
+
 
 class AddMovieView(View):
 
     def get(self, request):
         form = MovieAddForm()
-        return render(request, 'form.html', {'form':form})
+        return render(request, 'form.html', {'form': form})
 
     def post(self, request):
         form = MovieAddForm(request.POST)
@@ -49,7 +52,7 @@ class AddStudioView(View):
 
     def get(self, request):
         form = StudioAddForm()
-        return render(request, 'form.html', {'form':form})
+        return render(request, 'form.html', {'form': form})
 
     def post(self, request):
         form = StudioAddForm(request.POST)
@@ -57,3 +60,10 @@ class AddStudioView(View):
             form.save()
             return redirect('/')
         return render(request, 'form.html', {'form': form})
+
+
+class MovieDetailView(View):
+
+    def get(self, request, pk):
+        movie = Movie.objects.get(pk=pk)
+        return render(request, 'movie_detail.html', {'movie': movie})

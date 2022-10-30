@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content%}
+<div class="card w-75">
+    <div class="card-header">
+        <span> {{ movie.title }}</span>
+    </div>
+    <div class="card-body">
+        <ul class="list-group">
+        <li class="list-group-item">{{ movie.year }}</li>
+        <li class="list-group-item">{{ movie.director }}</li>
+        <li class="list-group-item">{{ movie.studio }}</li>
+        </ul>
+    </div>
+</div>
+
+{% endblock %}
