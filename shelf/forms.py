@@ -14,14 +14,14 @@ class MovieAddForm(forms.Form):
     director = forms.ModelChoiceField(
         queryset=Person.objects.all(), widget=forms.RadioSelect)
     studio = forms.ModelChoiceField(
-        queryset=Studio.objects.all()
+        queryset=Studio.objects.all(), required=False
     )
 
     def clean(self):
         cleaned_data = super().clean()
         studio = cleaned_data['studio']
         year = cleaned_data['year']
-        if studio.year > year:
+        if studio is not None and studio.year > year:
             raise ValidationError("rok produkcji filmu nie moze być mniejszy niż rok założenia studia")
         return cleaned_data
 
