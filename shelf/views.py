@@ -52,7 +52,9 @@ class AddMovieView(PermissionRequiredMixin, View):
         return render(request, 'form.html', {'form': form})
 
 
-class AddStudioView(View):
+class AddStudioView(PermissionRequiredMixin, View):
+
+    permission_required = ['shelf.add_studio']
 
     def get(self, request):
         form = StudioAddForm()
@@ -71,7 +73,6 @@ class MovieDetailView(View):
 
     def get(self, request, pk):
         movie = Movie.objects.get(pk=pk)
-        comments = movie.comment_set.filter(author=request.user)
         form = CommentAddForm()
         return render(request, 'movie_detail.html', {'movie': movie, 'form': form})
 

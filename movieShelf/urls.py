@@ -31,4 +31,5 @@ urlpatterns = [
     path('add_comment/<int:movie_pk>/', views.AddCommentView.as_view(), name='add_comment'),
     path('login/', views.LoginView.as_view(), name='login'),
     path('logout/', views.LogoutView.as_view(), name='logout'),
+    path('register/', views.RegisterView.as_view(), name='register')
 ]

@@ -44,3 +44,7 @@ class Comment(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
+
+
+class KotoPies(models.Model):
+    czy_mam_swira = models.BooleanField()
